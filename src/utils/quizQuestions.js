@@ -5,7 +5,8 @@ export const quizQuestions = {
           "title": "Math Exam:",
           "questions": [
             {
-              "id": 1,
+              "No": 1,
+              "option":["A","B","C","D"],
               "question": "What is Computer?",
               "options": ["Electronic Data Processing Machine", "Electronic Device Processing Machine", "Electronic Information Processing Machine", "Electronic System Processing Machine"],
               "correctAnswer": "Electronic Data Processing Machine"

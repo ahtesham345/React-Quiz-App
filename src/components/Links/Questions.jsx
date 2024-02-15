@@ -37,7 +37,7 @@ function Questions() {
           <div key={exam.id} className="my-1 sm:my-4 mx-1 sm:mx-8">
             <div className="flex flex-col sm:flex-row justify-between items-center">
               <div className="flex flex-row mb-3">
-                <h1 className="text-sm sm:text-2xl font-bold">Q{exam.id}:</h1>
+                <h1 className="text-sm sm:text-2xl font-bold">Q{exam.questions[0].No}:</h1>
                 <p className="max-w-xl text-sm sm:text-lg leading-0 sm:leading-8 text-gray-600 mx-3 mt-1">
                   {exam.questions[0].question} {/* Displaying the first question for example */}
                 </p>
@@ -60,45 +60,23 @@ function Questions() {
   </Tooltip>
 </div>
  </div>
-            <div className="flex flex-col mt-5">
-      <h2 className='text-green-400 text-2xl font-bold mb-5'>Answers:</h2>
-      <div className="flex flex-row space-x-2">
-        <Button
-          className={`bg-${selectedAnswer === 'A' ? 'green-500' : 'indigo-600'} text-white   rounded-md`}
-          onClick={() => handleAnswerClick('A')}
-        >
-          <h2 className='text-xl font-medium'>A</h2>
-        </Button>
-        <p className='text-gray-400 mt-3'>Electronic Data Processing Machine</p>
-      </div>
-      <div className="flex flex-row space-x-2 my-5">
-        <Button
-          className={`bg-${selectedAnswer === 'B' ? 'green-500' : 'indigo-600'} text-white rounded-md`}
-          onClick={() => handleAnswerClick('B')}
-        >
-          <h2 className='text-xl font-medium'>B</h2>
-        </Button>
-        <p className='text-gray-400 mt-3 p-1'>Electronic Device Processing Machine</p>
-      </div>
-      <div className="flex flex-row space-x-2">
-        <Button
-          className={`bg-${selectedAnswer === 'C' ? 'green-500' : 'indigo-600'} text-white rounded-md`}
-          onClick={() => handleAnswerClick('C')}
-        >
-          <h2 className='text-xl font-medium'>C</h2>
-        </Button>
-        <p className='text-gray-400 mt-1 p-1'>Electronic Information Processing Machine</p>
-      </div>
-      <div className="flex flex-row space-x-2 my-5">
-        <Button
-          className={`bg-${selectedAnswer === 'D' ? 'green-500' : 'indigo-600'} text-white  rounded-md`}
-          onClick={() => handleAnswerClick('D')}
-        >
-          <h2 className='text-xl font-medium'>D</h2>
-        </Button>
-        <p className='text-gray-400 w-80 mt-1 p-1'>Electronic System Processing Machine</p>
-      </div>
+ <div className="flex flex-col mt-5">
+  <h2 className='text-green-400 text-2xl font-bold mb-5'>Answers:</h2>
+  {exam.questions[0].options.map((option, index) => (
+    <div key={index} className="flex flex-row space-x-2 my-5">
+      <Button
+        className={`bg-${selectedAnswer === option && selectedAnswer === exam.questions[0].correctAnswer ? 'green-500' : 'indigo-600'} text-white rounded-md`}
+        onClick={() => handleAnswerClick(option)}
+      >
+        <h2 className='text-xl font-medium'>{exam.questions[0].option[index]}</h2>
+      </Button>
+      <p className='text-gray-400 mt-3'>{option}</p>
     </div>
+  ))}
+</div>
+
+
+
           </div>
         ))}
     <div className="flex overflow-x-auto sm:justify-center mb-3">
