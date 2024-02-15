@@ -10,17 +10,28 @@ import { Pagination } from 'flowbite-react';
 
 function Questions() {
   const [currentPage, setCurrentPage] = useState(1);
+  const questionsPerPage = 1; // Number of questions per page
 
-  const onPageChange = (page) => setCurrentPage(page);
+  const onPageChange = (page) => {
+    console.log("triggered");
+    setCurrentPage(page);
+  };
+
+  // Move these calculations inside the component body
+  const startQuestionIndex = (currentPage - 1) * questionsPerPage;
+  const endQuestionIndex = startQuestionIndex + questionsPerPage;
+
+  const currentQuestions = quizQuestions.exams[0].questions.slice(
+    startQuestionIndex,
+    endQuestionIndex
+  );
+
+
   const [selectedAnswer, setSelectedAnswer] = useState(null);
-
   const handleAnswerClick = (answer) => {
     setSelectedAnswer(answer);
   };
-    const {
-        openModal,
-        setOpenModal,
-    } = useContext(GlobalContext)
+
   return (
     <div>
         <div className="bg-white">
@@ -37,24 +48,24 @@ function Questions() {
           <div key={exam.id} className="my-1 sm:my-4 mx-1 sm:mx-8">
             <div className="flex flex-col sm:flex-row justify-between items-center">
               <div className="flex flex-row mb-3">
-                <h1 className="text-sm sm:text-2xl font-bold">Q{exam.questions[0].No}:</h1>
-                <p className="max-w-xl text-sm sm:text-lg leading-0 sm:leading-8 text-gray-600 mx-3 mt-1">
+                <h1 className="text-xl sm:text-2xl font-bold">Q{exam.questions[0].No}:</h1>
+                <p className="max-w-xl text-xl sm:text-lg leading-0 sm:leading-8 text-gray-600 mx-3">
                   {exam.questions[0].question} {/* Displaying the first question for example */}
                 </p>
               </div>
-              <div className="sm:flex justify-end sm:space-x-10 transition-all mt-2">
+              <div className="flex gap-x-4  sm:space-x-10 transition-all mt-2">
   <Tooltip content="Bookmark">
-    <Button className="text-white bg-indigo-600 border border-gray-200 p-2 px-8" style={{ opacity: 0.7 }}>
+    <Button className="text-white w-8 md:w-full bg-indigo-600 border border-gray-200 p-2 px-8" style={{ opacity: 0.7 }}>
       <FaBookmark className="" />
     </Button>
   </Tooltip>
   <Tooltip content="Answer">
-    <Button className="text-white bg-indigo-600 border border-gray-200 p-2 px-8" style={{ opacity: 0.7 }}>
+    <Button className="text-white w-8 md:w-full bg-indigo-600 border border-gray-200 p-2 px-8" style={{ opacity: 0.7 }}>
       <FaCheckSquare className="" />
     </Button>
   </Tooltip>
   <Tooltip content="Bolt">
-    <Button className="text-white bg-indigo-600 border border-gray-200 p-2 px-8" style={{ opacity: 0.7 }}>
+    <Button className="text-white w-8 md:w-full bg-indigo-600 border border-gray-200 p-2 px-8" style={{ opacity: 0.7 }}>
       <FaBolt />
     </Button>
   </Tooltip>
@@ -79,17 +90,19 @@ function Questions() {
 
           </div>
         ))}
-    <div className="flex overflow-x-auto sm:justify-center mb-3">
-      <Pagination
-        layout="pagination"
-        currentPage={currentPage}
-        totalPages={1000}
-        onPageChange={onPageChange}
-        previousLabel="Go back"
-        nextLabel="Go forward"
-        showIcons
-      />
-    </div>
+ <div className="flex overflow-x-auto sm:justify-center mb-3">
+        <Pagination
+          layout="pagination"
+          currentPage={currentPage}
+          totalPages={Math.ceil(
+            quizQuestions.exams[0].questions.length / questionsPerPage
+          )}
+          onPageChange={onPageChange}
+          previousLabel="Go back"
+          nextLabel="Go forward"
+          showIcons
+        />
+      </div>
       </div>
     </div>
 
